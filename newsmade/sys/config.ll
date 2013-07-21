@@ -2,12 +2,13 @@
 
 <!--
 *
-* Newsmade | lliure 4.4
+* Newsmade | lliure 5
 *
-* @VersÃ£o 2.2.5
+* @Versão 4.0
 * @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
+* @Colaborador Rodrigo Dechen <mestri.rodrigo@gmail.com>
 * @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
-* @LicenÃ§a http://opensource.org/licenses/gpl-license.php GNU Public License
+* @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 -->
 
