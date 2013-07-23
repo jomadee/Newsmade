@@ -67,22 +67,23 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 					<th class="ico"></th>		
 					<th class="ico"></th>		
 				</tr>
-			<?php
-			$i = 1;
-			while($dados = mysql_fetch_assoc($limite)){
-				$alterna = ($i%2?'0':'1');
+				
+				<?php
+				$i = 1;
+				while($dados = mysql_fetch_assoc($limite)){
+					$alterna = ($i%2?'0':'1');
+					?>
+					<tr class="alterna<?php echo $alterna?>">
+						<td><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id'].(isset($_GET['pagina'])?'&amp;pagina='.$_GET['pagina']:'')?>"><?php echo ($dados['publicar'] == "0" ? '<strong>[rascunho]</strong> ' : '').$dados['titulo']; ?><a/></td>
+						
+						<td class="ico"><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id']; ?>"><img src="<?php echo $_ll['tema']['icones'];?>/doc_edit.png" alt="editar"/></a></td>
+						
+						<td class="ico"><a href="<?php echo $llPasta.'del.php?post='.$dados['id']?>" title="excluir" class="excluir"><img src="<?php echo $_ll['tema']['icones'];?>/trash.png" alt="excluir"/></a></td>
+					</tr>
+					<?php		
+					$i++;
+				}
 				?>
-				<tr class="alterna<?php echo $alterna?>">
-					<td><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id'].(isset($_GET['pagina'])?'&amp;pagina='.$_GET['pagina']:'')?>"><?php echo ($dados['publicar'] == "0" ? '<strong>[rascunho]</strong> ' : '').$dados['titulo']; ?><a/></td>
-					
-					<td class="ico"><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id']; ?>"><img src="<?php echo $_ll['tema']['icones'];?>/doc_edit.png" alt="editar"/></a></td>
-					
-					<td class="ico"><a href="<?php echo $llPasta.'del.php?post='.$dados['id']?>" title="excluir" class="excluir"><img src="<?php echo $_ll['tema']['icones'];?>/trash.png" alt="excluir"/></a></td>
-				</tr>
-				<?php		
-				$i++;
-			}
-			?>
 			</table>
 
 			<div class="paginacao">
