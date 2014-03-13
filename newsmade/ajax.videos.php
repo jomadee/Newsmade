@@ -1,11 +1,10 @@
 <?php
 /**
 *
-* Newsmade | lliure 5
+* Newsmade | lliure 5.x - 6.x
 *
-* @Versão 4.0
+* @Versão 4
 * @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
-* @Colaborador Rodrigo Dechen <mestri.rodrigo@gmail.com>
 * @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -32,7 +31,7 @@ switch($case[0]){
 		jf_insert(PREFIXO.'newsmade_albuns_videos', array('video' => $url, 'album' => $_GET['add']));
 		
 		$carrega = '<div style="display: none;">'.
-					'<a href="app/newsmade/ajax.videos.php?del='.$ml_ultmo_id.'" class="del"><img src="api/fotos/delete.png"></a>'.
+					'<a href="plugins/newsmade/ajax.videos.php?del='.$ml_ultmo_id.'" class="del"><img src="api/fotos/delete.png"></a>'.
 						'<img src="includes/thumb.php?i=http://i1.ytimg.com/vi/'.$url.'/default.jpg:96:55:c"/>'.
 					'</div>';
 		?>

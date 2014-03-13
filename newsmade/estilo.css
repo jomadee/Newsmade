@@ -1,10 +1,9 @@
 /**
 *
-* Newsmade | lliure 5
+* Newsmade | lliure 5.x - 6.x
 *
-* @Versão 4.0
+* @Versão 4
 * @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
-* @Colaborador Rodrigo Dechen <mestri.rodrigo@gmail.com>
 * @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -31,7 +30,7 @@ table.table tr:hover td{
 	top: 0;
 	width: 190px;
 	}
-	
+
 	.menuBlog .explic{
 		font-size: 12px;
 		color: #999;
@@ -87,13 +86,45 @@ table.table tr:hover td{
 		
 
 /**************************		BLOG	*/
+.contBlog{
+	
+	}
+
+	.contBlog .abas{
+		border-bottom: 1px solid #777;
+		margin-bottom: 4px;
+		float: left;
+		width: 100%;
+		}
+		
+		.contBlog .abas .aba a{
+			background: #ddd;
+			margin: 0 5px 2px 0;
+			float: left;
+			padding: 8px 12px;
+			border-radius: 5px 5px 0 0;
+			color: #777;
+			}
+			
+		.contBlog .abas .aba a:hover{
+			color: #777;
+			background: #ccc;
+			}
+			
+		.contBlog .abas .aba.ativo a{
+			margin: 2px 5px 0 0 ;
+			background: #777;
+			color: #fff;
+			}
+
+
 .menuBlog .topicos{
 		background: #ddd;
 		float: left;
 		width: 190px;
 		margin-bottom: 14px;
 		position: absolute;
-		top: 287px;
+		top: 200px;
 		left: 0;
 		border-radius: 3px;		
 		}
@@ -158,14 +189,14 @@ table.table tr:hover td{
 				padding: 5px 10px;
 				}
 				
-				#sugestao a.cele{
+				#sugestao a:hover{
 					background: #d4d4d4;
 					}
 
 #formBlog .controles{
 	position: absolute;
 	left: 0px;
-	top: 115px;
+	top: 92px;
 	width: 190px;  
 	}
 
@@ -474,3 +505,14 @@ table.table tr:hover td{
 		.videosMini img{
 			float: left;
 			}
+
+/***************************************	G_BLOGS */
+.g_blogs{
+	
+	}
+	
+	.g_blogs .menu{
+		float: left;
+		width: 100%;
+		margin-bottom: 10px;
+		}

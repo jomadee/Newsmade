@@ -1,14 +1,16 @@
---
--- Newsmade | lliure 5
---
--- @Vers�o 4.0
--- @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
--- @Colaborador Rodrigo Dechen <mestri.rodrigo@gmail.com>
--- @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
--- @Licen�a http://opensource.org/licenses/gpl-license.php GNU Public License
---
+-- --------------------------------------------------------
+-- Servidor:                     127.0.0.1
+-- Versão do servidor:           5.5.27 - MySQL Community Server (GPL)
+-- OS do Servidor:               Win32
+-- HeidiSQL Versão:              8.3.0.4694
+-- --------------------------------------------------------
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_albuns
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- Copiando estrutura para tabela agostinho.ll_newsmade_albuns
 CREATE TABLE IF NOT EXISTS `ll_newsmade_albuns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(256) NOT NULL,
@@ -20,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_albuns` (
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_albuns_fotos
+-- Copiando estrutura para tabela agostinho.ll_newsmade_albuns_fotos
 CREATE TABLE IF NOT EXISTS `ll_newsmade_albuns_fotos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `album` int(11) NOT NULL,
@@ -36,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_albuns_fotos` (
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_albuns_videos
+-- Copiando estrutura para tabela agostinho.ll_newsmade_albuns_videos
 CREATE TABLE IF NOT EXISTS `ll_newsmade_albuns_videos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `album` int(11) NOT NULL,
@@ -49,22 +51,22 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_albuns_videos` (
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_colunas
-CREATE TABLE IF NOT EXISTS `ll_newsmade_colunas` (
+-- Copiando estrutura para tabela agostinho.ll_newsmade_blogs
+CREATE TABLE IF NOT EXISTS `ll_newsmade_blogs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) NOT NULL,
-  `url` varchar(255) DEFAULT NULL,
+  `url` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_postagens
+-- Copiando estrutura para tabela agostinho.ll_newsmade_postagens
 CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `blog` int(11) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
-  `coluna` int(11) DEFAULT NULL,
   `titulo` varchar(256) NOT NULL,
   `subtitulo` varchar(256) DEFAULT NULL,
   `introducao` text,
@@ -75,14 +77,14 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens` (
   `user` int(11) DEFAULT NULL,
   `publicar` enum('0','1') DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `Index 2` (`coluna`),
-  CONSTRAINT `FK_ll_newsmade_postagens_ll_newsmade_categorias` FOREIGN KEY (`coluna`) REFERENCES `ll_newsmade_colunas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  KEY `Index 2` (`blog`),
+  CONSTRAINT `FK_ll_newsmade_postagens_ll_newsmade_categorias` FOREIGN KEY (`blog`) REFERENCES `ll_newsmade_blogs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_postagens_albuns
+-- Copiando estrutura para tabela agostinho.ll_newsmade_postagens_albuns
 CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_albuns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idPostagem` int(11) NOT NULL,
@@ -97,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_albuns` (
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_postagens_comentarios
+-- Copiando estrutura para tabela agostinho.ll_newsmade_postagens_comentarios
 CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_comentarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `postagem` int(11) NOT NULL,
@@ -115,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_comentarios` (
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_postagens_referencias
+-- Copiando estrutura para tabela agostinho.ll_newsmade_postagens_referencias
 CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_referencias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idNoticia` int(11) NOT NULL,
@@ -130,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_referencias` (
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_postagens_visualizacoes
+-- Copiando estrutura para tabela agostinho.ll_newsmade_postagens_visualizacoes
 CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_visualizacoes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `postagem` int(11) NOT NULL,
@@ -143,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens_visualizacoes` (
 -- Exportação de dados foi desmarcado.
 
 
--- Copiando estrutura para tabela lliure_5.ll_newsmade_topicos
+-- Copiando estrutura para tabela agostinho.ll_newsmade_topicos
 CREATE TABLE IF NOT EXISTS `ll_newsmade_topicos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `topico` varchar(70) NOT NULL,
@@ -154,3 +156,6 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_topicos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Exportação de dados foi desmarcado.
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

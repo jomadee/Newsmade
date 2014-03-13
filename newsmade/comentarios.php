@@ -1,11 +1,10 @@
 <?php
 /**
 *
-* Newsmade | lliure 5
+* Newsmade | lliure 5.x - 6.x
 *
-* @Versão 4.0
+* @Versão 4
 * @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
-* @Colaborador Rodrigo Dechen <mestri.rodrigo@gmail.com>
 * @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -71,9 +70,9 @@ default:
 						</div>
 					</td>
 					<td><a href="?plugin=newsmade&p=blog&id=<?php echo $dados['postagem']?>"><?php echo $dados['postTitl']?></td>
-					<td class="ico"><a href="<?php echo $llPasta.'comentarios.php?ac=status&amp;id='.$dados['id']?>" class="atdtComent" rel="<?php echo $dados['status']?>"><img src="<?php echo $_ll['tema']['icones'];?>/checkbox_<?php echo $dados['status'] == 0 ? 'un' : ''?>checked.png" alt="editar"/></a></td>
+					<td class="ico"><a href="<?php echo $_ll['app']['pasta'].'comentarios.php?ac=status&amp;id='.$dados['id']?>" class="atdtComent" rel="<?php echo $dados['status']?>"><img src="<?php echo $_ll['tema']['icones'];?>/checkbox_<?php echo $dados['status'] == 0 ? 'un' : ''?>checked.png" alt="editar"/></a></td>
 					
-					<td class="ico"><a href="<?php echo $llPasta.'comentarios.php?ac=delete&amp;id='.$dados['id']?>" title="excluir" class="excluir"><img src="<?php echo $_ll['tema']['icones'];?>/trash.png" alt="excluir"/></a></td>
+					<td class="ico"><a href="<?php echo $_ll['app']['pasta'].'comentarios.php?ac=delete&amp;id='.$dados['id']?>" title="excluir" class="excluir"><img src="<?php echo $_ll['tema']['icones'];?>/trash.png" alt="excluir"/></a></td>
 				</tr>
 				<?php		
 				$i++;

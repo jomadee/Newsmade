@@ -1,37 +1,19 @@
 <?php
 /**
 *
-* Newsmade | lliure 5
+* Newsmade | lliure 5.x - 6.x
 *
-* @Versão 4.0
+* @Versão 4
 * @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
-* @Colaborador Rodrigo Dechen <mestri.rodrigo@gmail.com>
 * @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
 
-function url_disponivel($url, $id, $num = null){
-	
-	if(!empty($num)){
-		$url_new = $url.'-'.$num;
-		$num++;
-	} else {
-		$url_new = $url;
-		$num = 2;
-	}
-	
-	$consulta = mysql_query('select * from '.PREFIXO.'newsmade_postagens where url = "'.$url_new.'" and id != "'.$id.'" limit 1');
-	
-	if(mysql_num_rows($consulta) > 0)
-		return url_disponivel($url, $id, $num);
-	else
-		return $url_new;
-}
-
 switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 	case 'home':
-		$consulta = "select * from ".PREFIXO."newsmade_postagens order by id desc ";
+		$consulta = 'select * from '.PREFIXO.'newsmade_postagens where blog '.($_GET['blog'] != 'default' ? '= "'.$_GET['blog'].'"' : 'is NULL').' order by id desc';
+		
 		$query = mysql_query($consulta);
 		$tr = mysql_num_rows($query); 
 
@@ -55,11 +37,36 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 			<div class="menuBlog">
 				<ul>
 					<li class="top">Opções do blog</li>
-					<li><a href="<?php echo $llPasta.'blog.php?ac=criar'?>"><img src="<?php echo $_ll['tema']['icones'];?>/lightbulb.png"> Postar</a></li>
-					<li><a href="<?php echo $llHome.'&amp;p=blog'?>"><img src="<?php echo $_ll['tema']['icones'];?>list_num.png"> Listar postagens</a></li>
-					<li><a href="<?php echo $llHome.'&amp;p=comentarios'?>"><img src="<?php echo $_ll['tema']['icones'];?>/spechbubble_2.png"> Comentários</a></li>
+					<li><a href="<?php echo $_ll['app']['onserver'].'&ac=b_criar&blog='.$_GET['blog']; ?>"><img src="<?php echo $_ll['tema']['icones'];?>/lightbulb.png"> Postar</a></li>
+					<li><a href="<?php echo $_ll['app']['home'].'&amp;p=blog'?>"><img src="<?php echo $_ll['tema']['icones'];?>list_num.png"> Listar postagens</a></li>
+					<li><a href="<?php echo $_ll['app']['home'].'&amp;p=comentarios'?>"><img src="<?php echo $_ll['tema']['icones'];?>/spechbubble_2.png"> Comentários</a></li>
+					<?php
+					if(ll_tsecuryt('admin'))
+						echo '<li><a href="'.$_ll['app']['home'].'&amp;p=g_blogs"><img src="'.$_ll['tema']['icones'].'/layers_1.png"> Gerenciar blogs</a></li>';
+					?>
 				</ul>
 			</div>
+			
+			<?php
+			$query = mysql_query('select * from '.PREFIXO.'newsmade_blogs');
+			while($dados = mysql_fetch_assoc($query)){
+				$abas[$dados['id']] = $dados['nome'];
+			}
+			
+			if(!empty($abas)){
+				echo '<div class="abas">';
+					foreach($abas as $key => $valor){
+						echo '<span class="aba'.($_GET['blog'] == $key ?  ' ativo' : '').'"><a href="'.$_ll['app']['home'].'&blog='.$key.'">'.$valor.'</a></span>';
+					}
+					
+					$default = @mysql_result(mysql_query('select id from '.PREFIXO.'newsmade_postagens where blog is NULL limit 1'));
+					
+					if(!empty($default))
+						echo '<span class="aba'.($_GET['blog'] == 'default' ?  ' ativo' : '').'"><a href="'.$_ll['app']['home'].'&blog=default">Default</a></span>';
+						
+				echo '</div>';
+			}
+			?>
 			
 			<table class="table">
 				<tr>
@@ -67,23 +74,22 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 					<th class="ico"></th>		
 					<th class="ico"></th>		
 				</tr>
-				
-				<?php
-				$i = 1;
-				while($dados = mysql_fetch_assoc($limite)){
-					$alterna = ($i%2?'0':'1');
-					?>
-					<tr class="alterna<?php echo $alterna?>">
-						<td><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id'].(isset($_GET['pagina'])?'&amp;pagina='.$_GET['pagina']:'')?>"><?php echo ($dados['publicar'] == "0" ? '<strong>[rascunho]</strong> ' : '').$dados['titulo']; ?><a/></td>
-						
-						<td class="ico"><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id']; ?>"><img src="<?php echo $_ll['tema']['icones'];?>/doc_edit.png" alt="editar"/></a></td>
-						
-						<td class="ico"><a href="<?php echo $llPasta.'del.php?post='.$dados['id']?>" title="excluir" class="excluir"><img src="<?php echo $_ll['tema']['icones'];?>/trash.png" alt="excluir"/></a></td>
-					</tr>
-					<?php		
-					$i++;
-				}
+			<?php
+			$i = 1;
+			while($dados = mysql_fetch_assoc($limite)){
+				$alterna = ($i%2?'0':'1');
 				?>
+				<tr class="alterna<?php echo $alterna?>">
+					<td><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id'].(isset($_GET['pagina'])?'&amp;pagina='.$_GET['pagina']:'')?>"><?php echo ($dados['publicar'] == "0" ? '<strong>[rascunho]</strong> ' : '').$dados['titulo']; ?><a/></td>
+					
+					<td class="ico"><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id']; ?>"><img src="<?php echo $_ll['tema']['icones'];?>/doc_edit.png" alt="editar"/></a></td>
+					
+					<td class="ico"><a href="<?php echo $_ll['app']['onserver'].'&ac=b_del&post='.$dados['id'].'&blog='.$_GET['blog']; ?>" title="excluir" class="excluir"><img src="<?php echo $_ll['tema']['icones'];?>/trash.png" alt="excluir"/></a></td>
+				</tr>
+				<?php		
+				$i++;
+			}
+			?>
 			</table>
 
 			<div class="paginacao">
@@ -132,110 +138,42 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 		<?php		
 		break;
 		
-	case 'criar':
-		require_once("../../etc/bdconf.php");
-		require_once("../../includes/jf.funcoes.php"); 
-
-		$_POST['data'] = time();
-		$_POST['data_up'] = $_POST['data'];
-		$_POST['user'] = $_SESSION['logado']['id'];
-		
-		jf_insert(PREFIXO.'newsmade_postagens', $_POST);
-		
-		header('location: ../../index.php?app=newsmade&p=blog&ac=editar&id='.$jf_ultimo_id);
-		break;
-		
-	case 'alterar':
-		require_once("../../etc/bdconf.php");
-		require_once("../../includes/jf.funcoes.php"); 
-
-		$id = $_GET['id'];
-
-		$_POST['data_up'] = time();
-		
-		switch (jf_form_actions('salvar', 'public')){
-			case 'salvar':
-
-				break;
-
-			case 'public':
-				$_POST['publicar'] = 1;				
-				break;		
-		}
-
-		$retorno = '../../index.php?app=newsmade&p=blog&ac=editar&id='.$id;
-
-		jf_update(PREFIXO.'newsmade_postagens', $_POST, array('id' => $id));
-
-		$_SESSION['aviso'] = array('Alteração realizada com sucesso!', 1);
-
-		header('location: '.$retorno);
-		break;
-		
 	case 'editar':
-		$consulta = "select * from ".PREFIXO."newsmade_postagens where id =".jf_anti_injection($_GET['id']);
-		$dados = mysql_fetch_assoc(mysql_query($consulta));
+		$consulta = 'select * from '.PREFIXO.'newsmade_postagens where id ="'.jf_anti_injection($_GET['id']).'" limit 1';
 		
-		$consulta = "select id, nome from " . PREFIXO . "newsmade_colunas ORDER BY nome";
-		$consulta = mysql_query($consulta);
-        
-		$colunas['null'] = 'Sem coluna';
-		while($coluna = mysql_fetch_assoc($consulta))
-			$colunas[$coluna['id']] = $coluna['nome'];
+		$dados = mysql_fetch_assoc(mysql_query($consulta));
 
 		?>
 		<div class="contBlog">
-			<div class="menuBlog">
-				<?php
-				if(!empty($_GET['id'])){
-					?>
-					<ul>
-						<li class="top">Coluna</li>
-						<li><a class='midasBox' href="<?php echo $llPasta."ajax.gen_midias.php?notic=".$_GET['id']?>"><img src="<?php echo $_ll['tema']['icones'];?>/picture.png"> Mídias</a></li>
-						<?php /*<li><a class='jfbox' href="<?php echo $llPasta."ajax.referencias.php?notic=".$_GET['id']?>"><img src=<?php echo $_ll['tema']['icones'];?"/globe_2.png"> Referências</a></li> */?>
-					</ul>
+			<div class="menuBlog postInter">
+				<ul>
+					<li class="top">Gerenciar</li>
+					<li><a class='midasBox' href="<?php echo $_ll['app']['sen_html']."&p=ajax.gen_midias&notic=".$_GET['id']?>"><img src="<?php echo $_ll['tema']['icones'];?>/picture.png"> Mídias</a></li>
+					<?php /*<li><a class='jfbox' href="<?php echo $_ll['app']['pasta']."ajax.referencias.php?notic=".$_GET['id']?>"><img src=<?php echo $_ll['tema']['icones'];?"/globe_2.png"> Referências</a></li> */?>
+				</ul>
 
-					<div class="topicos">
-						<div class="padding">	
-							<span class="titulo">Tópicos</span>
+				<div class="topicos">
+					<div class="padding">	
+						<span class="titulo">Tópicos</span>
+					
+						<div id="relacionados"></div>
 						
-							<div id="relacionados"></div>
-							
-							<form id="topicosForm" action="<?php echo 'app/newsmade/ajax.topicos.php?id='.$_GET['id']?>" >
-								<input type="text" name="topico" autocomplete="off" id="pesquisa"/>
-								<div id="sugestao"></div>
-								<span class="botao"><button type="submit">Adicionar</button></span>
-							</form>
-							<div class="both"></div>
-						</div>
+						<form id="topicosForm" action="<?php echo $_ll['app']['pasta'].'ajax.topicos.php?id='.$_GET['id']?>" >
+							<input type="text" name="topico" autocomplete="off" id="pesquisa"/>
+							<div id="sugestao"></div>						
+							<span class="botao"><button type="submit">Adicionar</button></span>
+						</form>	
+						
+						
+						<div class="both"></div>
 					</div>
-					<?php
-				} else {
-					?>
-					<span class="explic">Após salvar sua postagem, será liberado o acesso para adicionar citações, fotos e vídeos. <br><br> Clique no botão <strong>Salvar e continuar editando</strong> para salvar e continuar nesta mesma página.</span>
-					<?php
-				}
-				?>
+				</div>
 			</div>
 			
 			<div class="limitBlog">
-				<form method="post" class="form" id="formBlog" action="<?php echo $llPasta.'blog.php?ac=alterar&id='.$_GET['id']; ?>">
+				<form method="post" class="form" id="formBlog" action="<?php echo $_ll['app']['onserver'].'&ac=b_alterar&id='.$_GET['id']; ?>">
 				
 					<div class="controles">
-
-						<div class="categoira">
-							<div class="padding">
-								<span class="titulo">Coluna</span>
-								<select name="coluna">
-								<?php
-								foreach($colunas as $chave => $dado)
-									echo '<option value="' . $chave . '"' . ($dados['coluna'] == $chave? 'selected="selected"': '') . '>' . $dado . '</option>';
-								?>
-								</select>
-							</div>
-						</div>
-						
-						
 						<?php 
 						
 						$botao_alterar = ($dados['publicar'] == 0 ? 'Salvar rascunho' : 'Salvar');
@@ -278,7 +216,6 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 		</div>
 		
 		<script type="text/javascript">
-            
 			$(function(){
 				<?php
 				if($dados['publicar'] == 0){
@@ -286,7 +223,7 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 					$('#titulo').focusout(function(){
 						var titulo = $(this).serializeArray();
 						
-						$.post('<?php echo $llPasta.'blog.php?ac=gera_url&id='.$dados['id']; ?>', titulo, function(url){
+						$.post('<?php echo $_ll['app']['onserver'].'&ac=b_gera_url&id='.$dados['id']; ?>', titulo, function(url){
 							$('#url_box').show();
 							$('#url').html(url);
 							$('#url_box input').val(url);
@@ -298,90 +235,37 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 				
 				$(".jfbox").jfbox({width: 439, height: 400}); 
 				$(".midasBox").jfbox({width: 439, height: 400, addClass: 'ajax-gen_midias'}); 
-                
-				$('#relacionados').load('<?php echo 'app/newsmade/ajax.topicos.php?id='.$dados['id'];?>');
-				$('#pesquisa').keydown(function (event){
-                    
-                    if ($('#sugestao').css('display') == 'block' && (event.keyCode == 38 || event.keyCode == 40 || event.keyCode == 27)){
-                    
-                        var lista = $('#sugestao a');
-                        var total = lista.length;
-                        var cele = null;
-                        lista.each(function (index, unid){
-                            if ($(unid).hasClass('cele')){
-                                cele = index;
-                            }
-                            $(unid).removeClass('cele');
-                        });
-                    
-                        //Apertou para cima
-                        if (event.keyCode == 38){
-                            if(cele !== null && (cele - 1) >= 0){
-                                lista.eq(cele - 1).addClass('cele');
-                            }else{
-                                lista.eq(total - 1).addClass('cele');
-                            }
-                        }
-                    
-                        //apertou para baixo
-                        if (event.keyCode == 40){
-                            if(cele !== null && (cele + 1) < total){
-                                lista.eq(cele + 1).addClass('cele');
-                            }else{
-                                lista.eq(0).addClass('cele');
-                            }
-                        }
-                        
-                        if(event.keyCode == 27){
-                            event.isPropagationStopped();
-        					$('#sugestao').fadeOut(500, function (){$(this).html('')});
-                        }
-                        
-                    }
-                
-                }).keyup(function(event){
-                    
-					if(event.keyCode != 13 && event.keyCode != 32 && event.keyCode != 38 && event.keyCode != 40 && event.keyCode != 27){
-                
+			
+				$('#relacionados').load('<?php echo $_ll['app']['pasta'].'ajax.topicos.php?id='.$dados['id'];?>');
+				$('#pesquisa').keyup(function(event){
+					event.stopPropagation();
+					
+					if(event.keyCode != 13 && event.keyCode != 32){
+						topico = false;
+						$('#sugestao').hide();
+
 						var termo = new Array();
 						
 						termo = $(this).val().split(',').reverse();
 						termo = termo[0].replace(/^\s+|\s+$/g,"").replace(/ /gi, '+');
 						
-                        visible = false;
-						if(termo.length > 2 && termo != ''){
-							$('#sugestao').load("app/newsmade/ajax.topicos.php?ac=consult&pesquisa="+termo, function(){
-                                if(visible)
-                                    $('#sugestao').fadeIn(500);
-                                else
-                                    $('#sugestao').hide().html('');
-							});
-                        }else
-                            $('#sugestao').hide().html('');
+						if(termo.length > 2 && termo != '')
+							$('#sugestao').load('<?php echo $_ll['app']['pasta'].'ajax.topicos.php?ac=consult&pesquisa='?>'+termo, function(){
+								
+								if(topico == true)
+									$('#sugestao').stop(true, true).fadeIn(500);
+							});	
 					}
 				});
 			});
 			
-			$('#topicosForm').submit(function(event){
-            
-                if ($('#sugestao').css('display') == 'block' && $('#sugestao a.cele').length > 0){
-                    
-                    var termo = $('#pesquisa').val().split(',');
-                    termo.pop();
-
-                    termo = termo.toString();
-
-                    $('#pesquisa').val((termo == '' ? termo : termo+', ')+$('#sugestao a.cele').attr('rel')+', ').focus();
-                    $('#sugestao').hide().html('');
-                    
-                }else{
-                    var campos =  $(this).serializeArray();
-
-                    $('#relacionados').load('app/newsmade/ajax.topicos.php?id=<?php echo $_GET['id']?>', campos, function(){
-                        $('#pesquisa').val(''); 
-                        $('#sugestao').hide().html('');
-                    });
-                }
+			$('#topicosForm').submit(function(){
+				var campos =  $(this).serializeArray();
+				
+				$('#relacionados').load('<?php echo $_ll['app']['pasta'].'ajax.topicos.php?id='.$_GET['id']?>', campos, function(){
+					$('#pesquisa').val(''); 
+					$('#sugestao').hide();
+				});
 				
 				return false;
 			});
@@ -400,31 +284,6 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 		</script>
 		
 		<?php
-		break;
-		
-	case 'gera_url':
-		header("Content-Type: text/html; charset=ISO-8859-1",true);
-		require_once("../../etc/bdconf.php");
-		require_once("../../includes/jf.funcoes.php"); 
-
-		$consulta = "select * from ".PREFIXO."newsmade_postagens where id =".jf_anti_injection($_GET['id']);
-		$dados = mysql_fetch_assoc(mysql_query($consulta));
-		
-		if($dados['publicar'] == 1)
-			break;
-		
-		
-		$_POST['titulo'] = trim(jf_iconv2($_POST['titulo']));
-		
-		$gravar['url'] = url_disponivel(jf_urlformat(str_replace('/', ' ', $_POST['titulo'])), $dados['id']);
-	
-		if(empty($dados['titulo'])){
-			$gravar['titulo'] = $_POST['titulo'];
-			
-			jf_update(PREFIXO.'newsmade_postagens', $gravar, array('id' => $_GET['id']));
-		}
-
-		echo $gravar['url'];		
 		break;
 }
 ?>

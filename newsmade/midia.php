@@ -1,11 +1,10 @@
 <?php
 /**
 *
-* Newsmade | lliure 5
+* Newsmade | lliure 5.x - 6.x
 *
-* @Versão 4.0
+* @Versão 4
 * @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
-* @Colaborador Rodrigo Dechen <mestri.rodrigo@gmail.com>
 * @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -16,7 +15,7 @@
 	$(document).ready(function(){	
 		$(".criaAlbum").jfbox({abreBox: false}, function(){
 			$(document).jfaviso('Novo album criado com sucesso!', 1);
-			jfnav_start();
+			navigi_start();
 		}); 
 	});
 </script>
@@ -25,27 +24,13 @@
 	<div class="menuBlog">
 		<ul>
 			<li class="top">Opções de fotos</li>
-			<li><a href="<?php echo $llPasta.'ajax.novo_album.php'?>" class="criaAlbum"><img src="<?php echo $_ll['tema']['icones'];?>/folder_plus.png"> Criar álbum</a></li>
+			<li><a href="<?php echo $_ll['app']['onserver'].'&ac=md_novoAlbum'?>" class="criaAlbum"><img src="<?php echo $_ll['tema']['icones'];?>/folder_plus.png"> Criar álbum</a></li>
 			<li><a href="<?php echo $llHome.'&amp;p=midia'?>"><img src="<?php echo $_ll['tema']['icones'];?>/2x2_grid.png"> Listar albuns</a></li>
 		</ul>
 	</div>
 
 	<?php
-	if(!isset($_GET['album'])){ //////////////////////////////	LISTANDO POSTAGENS	
-		/*
-		$tabela = PREFIXO."newsmade_albuns";
-		$consulta = "select * from ".$tabela." order by nome asc";
-	
-		$click['link'] = '?plugin=newsmade&p=midia&album=';
-		$click['ico'] = 'img/folder_image.png';
-
-		$mensagemVazio = "Nenhum album encontrado";
-		
-		echo "<div>";
-			jNavigator($consulta, $tabela, $llPasta, $mensagemVazio, $click);
-		echo "</div>";
-		*/
-		
+	if(!isset($_GET['album'])){ //////////////////////////////	LISTANDO POSTAGENS			
 		$navegador = new navigi();
 		$navegador->tabela = PREFIXO.'newsmade_albuns';
 		$navegador->query = 'select * from '.$navegador->tabela.' order by nome asc' ;
@@ -69,7 +54,7 @@
 		
 		<div class="limitBlog">
 			<h2>Dados do album</h2>		
-			<form method="post" class="form" action="<?php echo $llPasta.'step.php?album='.$_GET['album']?>">
+			<form method="post" class="form" action="<?php echo $_ll['app']['onserver'].'&ac=md_salvarAlbum&album='.$_GET['album']?>">
 				<fieldset>
 					<div>
 						<label>Nome</label>
@@ -79,7 +64,7 @@
 				</fieldset>
 				
 				<div class="botoes">	
-					<button type="submit" name="salvar">Salvar</button>
+					<button type="submit" class="confirm" name="salvar">Salvar</button>
 					<button type="submit" name="salvar-edit">Salvar e continuar editando</button>
 				</div>
 			</form>
@@ -104,7 +89,7 @@
 			
 			<div class="videos">
 				<h2>Vídeos</h2>
-				<form id="videoAdd" action="<?php echo $llPasta.'ajax.videos.php?add='.$_GET['album']?>" method="post">
+				<form id="videoAdd" action="<?php echo $_ll['app']['pasta'].'ajax.videos.php?add='.$_GET['album']?>" method="post">
 					<div>
 						<span>Adicionar vídeo</span>
 						<input type="text" name="url" id="urlVideo" value=""/>
@@ -119,7 +104,7 @@
 					while($dados = mysql_fetch_assoc($sql)){
 						?>
 						<div>
-							<a href="<?php echo $llPasta.'ajax.videos.php?del='.$dados['id']?>" class="del"><img src="api/fotos/delete.png"></a>
+							<a href="<?php echo $_ll['app']['pasta'].'ajax.videos.php?del='.$dados['id']?>" class="del"><img src="api/fotos/delete.png"></a>
 							<img src="includes/thumb.php?i=http://i1.ytimg.com/vi/<?php echo $dados['video']?>/default.jpg:96:55:c"/>
 						</div>
 						<?php
