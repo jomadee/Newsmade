@@ -18,6 +18,9 @@ if((!isset($_GET['p']) || $_GET['p'] == 'blog') && !isset($_GET['ac']) && !isset
 	header('location: '.$_ll['app']['home'].'&blog='.$coluna);
 }
 
+if(isset($_GET['p']) && $_GET['p'] == 'blog' && isset($_GET['ac']) && $_GET['ac'] == 'editar')
+	lliure::loadJs('js/jquery.maskedinput.js');
+
 $apigem = new api; 
 $apigem->iniciaApi('navigi');
 ?>

@@ -248,11 +248,14 @@ table.table tr:hover td{
 	
 		#formBlog #url_box span.fras{
 			float: left;
+			width: 400px;
 			}
 	
 			#formBlog #url_box #url{
-				background: #ccc;
-				padding: 2px;
+				background: #ddd;
+				padding: 8px;
+				border-radius: 3px;
+				color: #444;
 				}
 				
 				
@@ -322,7 +325,7 @@ table.table tr:hover td{
 	
 	.ajax-gen_midias .albuns{
 		float: left;
-		margin: 0px -3px 10px;
+		margin: 0px 0 10px;
 		clear: both;		
 		}
 	

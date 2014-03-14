@@ -8,3 +8,6 @@ Testado no lliure 6.x e 5.x
 [update] funcionar com multBlogs<br />
 [update] todas funções de pasta foram tranferidas para /app<br />
 [update] implementação de variável $_ll e conceito onserver<br />
+*4.1*<br />
+[bug] salvar e alterar album de mídia<br />
+[update] alterar data da postagem<br />

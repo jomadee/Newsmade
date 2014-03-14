@@ -192,23 +192,34 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 						</div>
 						
 						<div>
-							<label>Título</label>
-							<input type="text" id="titulo" value="<?php echo (isset($dados['titulo']) ? stripslashes($dados['titulo']) : ''); ?>" name="titulo" />
+							<table>
+								<tr>
+									<td>
+										<label>Título</label>
+										<input type="text" id="titulo" value="<?php echo stripslashes($dados['titulo']); ?>" name="titulo" />										
+									</td>
+									
+									<td style="width: 160px;">
+										<label>Data da postagem</label>
+										<input type="text"id="data" value="<?php echo date('d/m/Y H:i',$dados['data']); ?>" name="data" />										
+									</td>
+								</tr>
+							</table>							
 						</div>
 					
 						<div>
 							<label>Subtítulo</label>
-							<input type="text" value="<?php echo (isset($dados['subtitulo'])? stripslashes($dados['subtitulo']):'')?>" name="subtitulo" />
+							<input type="text" value="<?php echo stripslashes($dados['subtitulo']); ?>" name="subtitulo" />
 						</div>		
 						
 						<div>
 							<label>Introdução</label>
-							<textarea name="introducao" class="intro"><?php echo (isset($dados['introducao'])?stripslashes($dados['introducao']):'')?></textarea>
+							<textarea name="introducao" class="intro"><?php echo stripslashes($dados['introducao']); ?></textarea>
 						</div>
 						
 						<div>
 							<label>Texto</label>
-							<textarea name="texto" class="texto"><?php echo (isset($dados['texto'])?stripslashes($dados['texto']):'')?></textarea>
+							<textarea name="texto" class="texto"><?php echo stripslashes($dados['texto']);?></textarea>
 						</div>
 					</fieldset>
 				</form>				
@@ -217,6 +228,10 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 		
 		<script type="text/javascript">
 			$(function(){
+				ajustaForm();
+				
+				$('#data').mask('99/99/9999 99:99');				
+				
 				<?php
 				if($dados['publicar'] == 0){
 					?>
