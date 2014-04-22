@@ -97,7 +97,7 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 				$anterior = $pc -1;
 				$proximo = $pc +1;
 				
-				$url = "?app=newsmade&amp;p=blog";
+				$url = $_ll['app']['home'].'&p=blog&blog='.$_GET['blog'];
 				
 				if($tp > 1){
 					$tm = 3;
@@ -114,7 +114,7 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 				
 					for($i = $ini; $i <= $ult; $i++){
 						echo ($i > 1?'<span>|</span>':'');
-						echo "<span><a href='".$url."&amp;pagina=".$i."'".($i == $pc?"class='atual'":"").">".$i."</a></span>";
+						echo "<span><a href='".$url."&pagina=".$i."'".($i == $pc?"class='atual'":"").">".$i."</a></span>";
 					}
 				}
 				?>
