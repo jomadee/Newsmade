@@ -1,13 +1,9 @@
 # Newsmade
-*Versão 4.0*
+*Versão 5.0*
 
-Testado no lliure 6.x e 5.x
+Testado no lliure 8,x
 
-###versão 4
-####13/03/14
-[update] funcionar com multBlogs<br />
-[update] todas funções de pasta foram tranferidas para /app<br />
-[update] implementação de variável $_ll e conceito onserver<br />
-*4.1*<br />
-[bug] salvar e alterar album de mídia<br />
-[update] alterar data da postagem<br />
+###versão 5
+
+*5.0*<br />
+[update] Atualização para compatibilidade com lliure 8.x
