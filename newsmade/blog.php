@@ -12,25 +12,6 @@
 
 switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 	case 'home':
-		$consulta = 'select * from '.PREFIXO.'newsmade_postagens where blog '.($_GET['blog'] != 'default' ? '= "'.$_GET['blog'].'"' : 'is NULL').' order by id desc';
-		
-		$query = mysql_query($consulta);
-		$tr = mysql_num_rows($query); 
-
-		$total_reg = "10";
-
-		if (!isset($_GET['pagina'])) {
-			$pc = "1";
-		} else {
-			$pc = $_GET['pagina'];
-		} 
-		
-		$inicio = $pc - 1;
-		$inicio = $inicio * $total_reg; 
-				
-		$tp = ceil($tr / $total_reg); 
-		
-		$limite = mysql_query($consulta." LIMIT $inicio,$total_reg ");
 		?>
 
 		<div class="contBlog">
@@ -66,75 +47,23 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 						
 				echo '</div>';
 			}
-			?>
 			
-			<table class="table">
-				<tr>
-					<th>Postagem</th>		
-					<th class="ico"></th>		
-					<th class="ico"></th>		
-				</tr>
-			<?php
-			$i = 1;
-			while($dados = mysql_fetch_assoc($limite)){
-				$alterna = ($i%2?'0':'1');
-				?>
-				<tr class="alterna<?php echo $alterna?>">
-					<td><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id'].(isset($_GET['pagina'])?'&amp;pagina='.$_GET['pagina']:'')?>"><?php echo ($dados['publicar'] == "0" ? '<strong>[rascunho]</strong> ' : '').$dados['titulo']; ?><a/></td>
-					
-					<td class="ico"><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id']; ?>"><i class="fa fa-pencil-square-o"></i></a></td>
-					
-					<td class="ico"><a href="<?php echo $_ll['app']['onserver'].'&ac=b_del&post='.$dados['id'].'&blog='.$_GET['blog']; ?>" title="excluir" class="excluir"><i class="fa fa-trash"></i></a></td>
-				</tr>
-				<?php		
-				$i++;
-			}
+			$navigi = new navigi();
+			$navigi->tabela = PREFIXO.'newsmade_postagens';
+			$navigi->query = 'select *, 
+					if(publicar = "1", titulo , concat("[Rascunho] - ", IFNULL(titulo, "NULL") ) ) as titulo, 
+					if(titulo is null, 0, 1) as idd from '.$navigi->tabela.' where blog '.($_GET['blog'] != 'default' ? '= "'.$_GET['blog'].'"' : 'is NULL').' order by idd asc, id desc';
+			$navigi->delete = true;
+			$navigi->paginacao = 10;
+			$navigi->exibicao = 'lista';
+			$navigi->config = array(
+				'link' => $_ll['app']['home'].'&amp;p=blog&amp;ac=editar&amp;id=',
+				'coluna' => 'titulo'				
+				);			
+			$navigi->monta();			
 			?>
-			</table>
-
-			<div class="paginacao">
-				<?php
-				$anterior = $pc -1;
-				$proximo = $pc +1;
-				
-				$url = $_ll['app']['home'].'&p=blog&blog='.$_GET['blog'];
-				
-				if($tp > 1){
-					$tm = 3;
-					
-					$ini = $pc-$tm;
-					if($ini < 1){
-						$ini = 1;
-					}
-
-					$ult = $pc+$tm;
-					if($ult > $tp){
-						$ult = $tp;
-					}
-				
-					for($i = $ini; $i <= $ult; $i++){
-						echo ($i > 1?'<span>|</span>':'');
-						echo "<span><a href='".$url."&pagina=".$i."'".($i == $pc?"class='atual'":"").">".$i."</a></span>";
-					}
-				}
-				?>
-			</div>
 		</div>
-		
-		<script type="text/javascript">
-			$(function() {
-				$('.excluir').click(function() {
-					return confirmAlgo('essa postagem');
-				});
-				
-				<?php
-				if($tr < 1){
-					echo 'jfAlert("Nenhuma postagem encontrada");';
-				}
-				?>
-			});
-		</script>
-		
+
 		<?php		
 		break;
 		

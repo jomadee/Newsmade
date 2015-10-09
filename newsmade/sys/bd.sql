@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens` (
 	`modo` ENUM('0','1') NOT NULL DEFAULT '0',
 	`blog` INT(11) NULL DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
-  `titulo` varchar(256) NOT NULL,
+  `titulo` VARCHAR(256) NULL DEFAULT NULL,
   `subtitulo` varchar(256) DEFAULT NULL,
   `introducao` text,
   `texto` text,
