@@ -12,9 +12,9 @@
 require_once('sys/config.php');
 
 $botoes = array(
-	array('href' => $backReal, 'img' => $_ll['tema']['icones'].'br_prev.png', 'title' => $backNome),
-	array('href' => $llHome.'&amp;p=blog', 'img' => $_ll['tema']['icones'].'spechbubble_sq_line.png', 'title' => 'Blog'),
-	array('href' => $llHome.'&amp;p=midia', 'img' => $_ll['tema']['icones'].'photo.png', 'title' => 'Mídias')
+	array('href' => $backReal, 'fa' => 'fa-chevron-left', 'title' => $backNome),
+	array('href' => $llHome.'&amp;p=blog', 'fa' => 'fa-rss', 'title' => 'Blog'),
+	array('href' => $llHome.'&amp;p=midia', 'fa' => 'fa-book ', 'title' => 'Mídias')
 );
 
 echo app_bar('Newsmade', $botoes);

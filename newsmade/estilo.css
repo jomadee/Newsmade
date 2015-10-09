@@ -61,6 +61,11 @@ table.table tr:hover td{
 		padding: 6px 0 5px 8px;
 		}
 		
+		.menuBlog ul li a i{
+			font-size: 1.2em;
+			margin-right: 5px;
+			}
+		
 		.menuBlog ul li a:hover{
 			background: #e7e7e7;
 			}
@@ -199,6 +204,11 @@ table.table tr:hover td{
 	top: 92px;
 	width: 190px;  
 	}
+	
+	#formBlog .controles .botao{
+		margin-bottom: 10px;
+		float: left;
+		}
 
 	#formBlog .controles .categoira{
 		float: left;

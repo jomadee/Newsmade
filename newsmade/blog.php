@@ -1,9 +1,9 @@
 <?php
 /**
 *
-* Newsmade | lliure 5.x - 6.x
+* Newsmade | lliure 8.x
 *
-* @Versão 4
+* @Versão 5.0
 * @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
 * @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -37,12 +37,12 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 			<div class="menuBlog">
 				<ul>
 					<li class="top">Opções do blog</li>
-					<li><a href="<?php echo $_ll['app']['onserver'].'&ac=b_criar&blog='.$_GET['blog']; ?>"><img src="<?php echo $_ll['tema']['icones'];?>/lightbulb.png"> Postar</a></li>
-					<li><a href="<?php echo $_ll['app']['home'].'&amp;p=blog'?>"><img src="<?php echo $_ll['tema']['icones'];?>list_num.png"> Listar postagens</a></li>
-					<li><a href="<?php echo $_ll['app']['home'].'&amp;p=comentarios'?>"><img src="<?php echo $_ll['tema']['icones'];?>/spechbubble_2.png"> Comentários</a></li>
+					<li><a href="<?php echo $_ll['app']['onserver'].'&ac=b_criar&blog='.$_GET['blog']; ?>"><i class="fa fa-file-text-o"></i> Postar</a></li>
+					<li><a href="<?php echo $_ll['app']['home'].'&amp;p=blog'?>"><i class="fa fa-list-ol"></i> Listar postagens</a></li>
+					<li><a href="<?php echo $_ll['app']['home'].'&amp;p=comentarios'?>"><i class="fa fa-comments-o"></i> Comentários</a></li>
 					<?php
 					if(ll_tsecuryt('admin'))
-						echo '<li><a href="'.$_ll['app']['home'].'&amp;p=g_blogs"><img src="'.$_ll['tema']['icones'].'/layers_1.png"> Gerenciar blogs</a></li>';
+						echo '<li><a href="'.$_ll['app']['home'].'&amp;p=g_blogs"><i class="fa fa-newspaper-o"></i> Gerenciar blogs</a></li>';
 					?>
 				</ul>
 			</div>
@@ -82,9 +82,9 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 				<tr class="alterna<?php echo $alterna?>">
 					<td><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id'].(isset($_GET['pagina'])?'&amp;pagina='.$_GET['pagina']:'')?>"><?php echo ($dados['publicar'] == "0" ? '<strong>[rascunho]</strong> ' : '').$dados['titulo']; ?><a/></td>
 					
-					<td class="ico"><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id']; ?>"><img src="<?php echo $_ll['tema']['icones'];?>/doc_edit.png" alt="editar"/></a></td>
+					<td class="ico"><a href="<?php echo $llHome?>&amp;p=blog&amp;ac=editar&amp;id=<?php echo $dados['id']; ?>"><i class="fa fa-pencil-square-o"></i></a></td>
 					
-					<td class="ico"><a href="<?php echo $_ll['app']['onserver'].'&ac=b_del&post='.$dados['id'].'&blog='.$_GET['blog']; ?>" title="excluir" class="excluir"><img src="<?php echo $_ll['tema']['icones'];?>/trash.png" alt="excluir"/></a></td>
+					<td class="ico"><a href="<?php echo $_ll['app']['onserver'].'&ac=b_del&post='.$dados['id'].'&blog='.$_GET['blog']; ?>" title="excluir" class="excluir"><i class="fa fa-trash"></i></a></td>
 				</tr>
 				<?php		
 				$i++;
@@ -148,7 +148,7 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 			<div class="menuBlog postInter">
 				<ul>
 					<li class="top">Gerenciar</li>
-					<li><a class='midasBox' href="<?php echo $_ll['app']['sen_html']."&p=ajax.gen_midias&notic=".$_GET['id']?>"><img src="<?php echo $_ll['tema']['icones'];?>/picture.png"> Mídias</a></li>
+					<li><a class='midasBox' href="<?php echo $_ll['app']['sen_html']."&p=ajax.gen_midias&notic=".$_GET['id']?>"><i class="fa fa-file-image-o"></i> Mídias</a></li>
 					<?php /*<li><a class='jfbox' href="<?php echo $_ll['app']['pasta']."ajax.referencias.php?notic=".$_GET['id']?>"><img src=<?php echo $_ll['tema']['icones'];?"/globe_2.png"> Referências</a></li> */?>
 				</ul>
 
@@ -180,7 +180,7 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 						
 						echo '<span class="botao"><button type="submit" name="salvar">'.$botao_alterar.'</button></span>';
 						echo $dados['publicar'] == 0 
-								? '<span class="botao public"><button type="submit" name="public">Publicar</button></span>' 
+								? '<span class="botao"><button type="submit" class="confirm" name="public">Publicar</button></span>' 
 								: '<span class="atualizado">Atualizado em '.date('d/m/Y', $dados['data_up']).'</span>';
 							
 						?>
@@ -285,16 +285,17 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 				return false;
 			});
 			
-			tinyMCE.init({
-				// General options
-				mode : "textareas",
-				theme : "lliure",
-				width: '100%',
+			tinymce.init({
+				selector: "textarea",
+				plugins: [
+						"advlist autolink autosave link lists hr",
+						"code fullscreen nonbreaking"
+				],
 
-				plugins : "safari,pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,preview,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,nonbreaking,xhtmlxtras,template,icode",
-
-				// Theme options
-				theme_advanced_buttons1 : "cut,copy,paste,|,formatselect,|,bold,italic,underline,strikethrough,|,bullist,numlist,|,forecolor,backcolor,|,link,|,code,removeformat,fullscreen",
+				toolbar1: "bold italic underline strikethrough removeformat | alignleft aligncenter alignright alignjustify | bullist numlist | link unlink | code",
+				
+				menubar: false,
+				toolbar_items_size: 'small'
 			});
 		</script>
 		
