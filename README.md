@@ -1,7 +1,7 @@
 # Newsmade
 *Versão 5.0*
 
-Testado no lliure 8,x
+Testado no lliure 8.x
 
 ###versão 5
 
