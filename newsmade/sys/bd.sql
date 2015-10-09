@@ -64,8 +64,9 @@ CREATE TABLE IF NOT EXISTS `ll_newsmade_blogs` (
 
 -- Copiando estrutura para tabela agostinho.ll_newsmade_postagens
 CREATE TABLE IF NOT EXISTS `ll_newsmade_postagens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `blog` int(11) DEFAULT NULL,
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`modo` ENUM('0','1') NOT NULL DEFAULT '0',
+	`blog` INT(11) NULL DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   `titulo` varchar(256) NOT NULL,
   `subtitulo` varchar(256) DEFAULT NULL,

@@ -191,35 +191,41 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 							<?php echo '<span class="fras">Endereço permanente da postagem: <span id="url">'.$dados['url'].'</span></span> <input name="url" value="'.$dados['url'].'">'; ?>
 						</div>
 						
-						<div>
-							<table>
-								<tr>
-									<td>
-										<label>Título</label>
-										<input type="text" id="titulo" value="<?php echo stripslashes($dados['titulo']); ?>" name="titulo" />										
-									</td>
-									
-									<td style="width: 160px;">
-										<label>Data da postagem</label>
-										<input type="text"id="data" value="<?php echo date('d/m/Y H:i',$dados['data']); ?>" name="data" />										
-									</td>
-								</tr>
-							</table>							
+						<div class="column">
+							<div>
+								<label>Título</label>
+								<input type="text" id="titulo" value="<?php echo stripslashes($dados['titulo']); ?>" name="titulo" />
+							</div>	
+							
+							<div class="width" style="width: 160px;">
+								<label>Data da postagem</label>
+								<input type="text"id="data" value="<?php echo date('d/m/Y H:i',$dados['data']); ?>" name="data"/>
+							</div>						
 						</div>
 					
-						<div>
-							<label>Subtítulo</label>
-							<input type="text" value="<?php echo stripslashes($dados['subtitulo']); ?>" name="subtitulo" />
+						<div class="column">
+							<div>
+								<label>Subtítulo</label>
+								<input type="text" value="<?php echo stripslashes($dados['subtitulo']); ?>" name="subtitulo" />
+							</div>
+
+							<div class="width" style="width: 160px;">
+								<label>Modo de texto</label>
+								<select name="modo" class="modo">
+									<option value="1">Wysiwyg</option>
+									<option value="0" <?php echo ($dados['modo'] == '0' ? 'selected' : ''); ?>>MarkDown</option>
+								</select>
+							</div>
 						</div>		
 						
 						<div>
 							<label>Introdução</label>
-							<textarea name="introducao" class="intro"><?php echo stripslashes($dados['introducao']); ?></textarea>
+							<textarea name="introducao" class="intro tinymce"><?php echo stripslashes($dados['introducao']); ?></textarea>
 						</div>
 						
 						<div>
 							<label>Texto</label>
-							<textarea name="texto" class="texto"><?php echo stripslashes($dados['texto']);?></textarea>
+							<textarea name="texto" class="texto tinymce"><?php echo stripslashes($dados['texto']);?></textarea>
 						</div>
 					</fieldset>
 				</form>				
@@ -228,11 +234,31 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 		
 		<script type="text/javascript">
 			$(function(){
-				ajustaForm();
-				
 				$('#data').mask('99/99/9999 99:99');				
 				
+				
+				$('.modo').change(function(){
+					window.location.href = '<?php echo $_ll['app']['onserver'].'&ac=alt_modo&id='.$_GET['id'].'&modo='?>'+$(this).val();
+				});
+				
 				<?php
+				if($dados['modo'] == '1'){
+					?>
+					tinymce.init({
+						selector: ".tinymce",
+						plugins: [
+								"advlist autolink autosave link lists hr",
+								"code fullscreen nonbreaking"
+						],
+
+						toolbar1: "bold italic underline strikethrough removeformat | alignleft aligncenter alignright alignjustify | bullist numlist | link unlink | code",
+						
+						menubar: false,
+						toolbar_items_size: 'small'
+					});
+					<?php
+				}
+				
 				if($dados['publicar'] == 0){
 					?>
 					$('#titulo').focusout(function(){
@@ -285,18 +311,7 @@ switch(isset($_GET['ac']) ? $_GET['ac'] : 'home' ){
 				return false;
 			});
 			
-			tinymce.init({
-				selector: "textarea",
-				plugins: [
-						"advlist autolink autosave link lists hr",
-						"code fullscreen nonbreaking"
-				],
 
-				toolbar1: "bold italic underline strikethrough removeformat | alignleft aligncenter alignright alignjustify | bullist numlist | link unlink | code",
-				
-				menubar: false,
-				toolbar_items_size: 'small'
-			});
 		</script>
 		
 		<?php

@@ -263,9 +263,11 @@ table.table tr:hover td{
 	
 			#formBlog #url_box #url{
 				background: #ddd;
-				padding: 8px;
+				padding: 0 8px;
 				border-radius: 3px;
 				color: #444;
+				line-height: 30px;
+				height: 30px;
 				}
 				
 				
@@ -432,11 +434,14 @@ table.table tr:hover td{
 				}
 
 	.form .intro {
-		height: 150px;
+		height: 90px;
+		min-height: 90px;
 		}
 
 	.form .texto {
 		height: 400px;
+		max-height: 600px;
+		min-height: 300px;
 		}
 
 /**************************		MIDIAS	*/
