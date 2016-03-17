@@ -4,8 +4,8 @@
 * Newsmade | lliure 5.x - 6.x
 *
 * @Versão 4
-* @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
-* @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
+* @Pacote lliure
+* @Entre em contato com o desenvolvedor <lliure@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
@@ -18,7 +18,7 @@
 		?>
 		<div class="menu">
 			<span class="botao">
-				<a href="<?php echo $llAppOnServer, '&ac=gb_add';?>">Criar blog</a>
+				<a href="<?php echo $_ll['app']['onserver'], '&ac=gb_add';?>">Criar blog</a>
 			</span>
 		</div>
 		
@@ -31,7 +31,7 @@
 			$navegador->delete = true;
 			$navegador->rename = false;
 			$navegador->config = array(
-						'link' => $llAppHome . '&p=g_blogs&ac=edit&id='
+						'link' => $_ll['app']['home'] . '&p=g_blogs&ac=edit&id='
 						);
 			$navegador->monta();
 			?>

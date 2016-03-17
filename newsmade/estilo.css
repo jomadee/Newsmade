@@ -1,10 +1,10 @@
 /**
 *
-* Newsmade | lliure 5.x - 6.x
+* Newsmade | lliure 8.x
 *
-* @Versão 4
-* @Desenvolvedor Jeison Frasson <jomadee@lliure.com.br>
-* @Entre em contato com o desenvolvedor <jomadee@lliure.com.br> http://www.lliure.com.br/
+* @Versão 5
+* @Pacote lliure
+* @Entre em contato com o desenvolvedor <lliure@lliure.com.br> http://www.lliure.com.br/
 * @Licença http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
@@ -17,7 +17,6 @@ table.table tr:hover td{
 	padding: 0 0 0 220px;
 	margin-top: 10px;
 	position: relative;
-	font-size: 12px;
 	}
 	
 .contBlog .limitBlog{
@@ -45,6 +44,7 @@ table.table tr:hover td{
 	
 .menuBlog ul li {
 	clear: both;
+	font-size: 1.2em;
 	}
 	
 	.menuBlog ul li.top {
